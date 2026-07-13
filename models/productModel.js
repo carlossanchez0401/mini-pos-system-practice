@@ -17,7 +17,33 @@ async function addProduct(productName, category, price, stockQuantity, status) {
   return results;
 }
 
+async function updateProduct(
+  productName,
+  category,
+  price,
+  stockQuantity,
+  status,
+  id,
+) {
+  const [results] = await db.query(
+    "UPDATE products SET product_name=?, category=?, price=?, stock_quantity=?, status=? WHERE id=? ",
+    [productName, category, price, stockQuantity, status, id],
+  );
+
+  return results;
+}
+
+async function deleteProduct(productId) {
+  const [results] = await db.query("DELETE FROM products WHERE id=?", [
+    productId,
+  ]);
+
+  return results;
+}
+
 module.exports = {
   getProducts,
   addProduct,
+  updateProduct,
+  deleteProduct,
 };

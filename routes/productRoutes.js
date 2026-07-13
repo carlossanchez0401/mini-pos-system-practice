@@ -6,5 +6,11 @@ const { authorizeAdmin } = require("../middlewares/authorizeAdmin");
 
 router.get("/", verifyToken, productController.getProducts);
 router.post("/", verifyToken, authorizeAdmin, productController.addProduct);
+router.put(
+  "/:id",
+  verifyToken,
+  authorizeAdmin,
+  productController.updateProduct,
+);
 
 module.exports = router;
