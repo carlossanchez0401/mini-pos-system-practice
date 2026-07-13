@@ -140,8 +140,48 @@ async function updateProduct(req, res) {
   }
 }
 
+async function updateProductStatus(req, res) {
+  const productId = Number(req.params.id);
+  const { status } = req.body;
+  const statuses = ["available", "low-stock", "out-of-stock", "inactive"];
+
+  if (isNaN(productId) || productId <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Product ID",
+    });
+  }
+
+  if (!statuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Status Input",
+    });
+  }
+  try {
+    const product = await productModel.updateProductStatus(status, productId);
+
+    if (product.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Product Status updated successfully",
+    });
+  } catch (err) {
+    console.error("Product Controller Error", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error While Updating Product Status",
+    });
+  }
+}
+
 async function deleteProduct(req, res) {
-  const id = Number(req.params.id);
+  const productId = Number(req.params.id);
 
   if (isNaN(id) || id <= 0) {
     return res.status(400).json({
@@ -155,7 +195,7 @@ async function deleteProduct(req, res) {
     if (product.affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Product not founds",
+        message: "Product not found",
       });
     }
     return res.status(200).json({
@@ -175,4 +215,6 @@ module.exports = {
   getProducts,
   addProduct,
   updateProduct,
+  updateProductStatus,
+  deleteProduct,
 };

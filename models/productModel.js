@@ -33,6 +33,15 @@ async function updateProduct(
   return results;
 }
 
+async function updateProductStatus(status, productId) {
+  const [results] = await db.query("UPDATE products SET status=? WHERE id=?", [
+    status,
+    productId,
+  ]);
+
+  return results;
+}
+
 async function deleteProduct(productId) {
   const [results] = await db.query("DELETE FROM products WHERE id=?", [
     productId,
@@ -45,5 +54,6 @@ module.exports = {
   getProducts,
   addProduct,
   updateProduct,
+  updateProductStatus,
   deleteProduct,
 };

@@ -12,5 +12,11 @@ router.put(
   authorizeAdmin,
   productController.updateProduct,
 );
+router.patch(
+  "/:id/status",
+  verifyToken,
+  authorizeAdmin,
+  productController.updateProductStatus,
+);
 
 module.exports = router;
