@@ -1,15 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const PORT = process.env.PORT || 3000;
 const app = express();
+const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  res.send("Mini POS API is running");
-});
+app.use("/auth", authRoutes);
+app.use("/product", productRoutes);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Server is running");
 });
