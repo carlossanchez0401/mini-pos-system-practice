@@ -8,6 +8,14 @@ async function getEmployees() {
   return results;
 }
 
+async function getEmployeeById(id) {
+  const [results] = await db.query(
+    "SELECT full_name, email, username, status FROM users WHERE id=? AND role='employee'",
+    [id],
+  );
+  return results[0];
+}
+
 async function getEmployeeByEmailOrUsername(email, username) {
   const [results] = await db.query(
     "SELECT * FROM users WHERE email=? OR username=?",
@@ -26,8 +34,18 @@ async function addEmployee(fullName, email, username, password, status) {
   return results;
 }
 
+async function updateEmployee(fullName, email, username, status, id) {
+  const [results] = await db.query(
+    'UPDATE users SET full_name=?, email=?, username=?, status=? WHERE id=? AND role="employee" ',
+    [fullName, email, username, status, id],
+  );
+
+  return results;
+}
 module.exports = {
   getEmployees,
+  getEmployeeById,
   getEmployeeByEmailOrUsername,
   addEmployee,
+  updateEmployee,
 };

@@ -87,7 +87,63 @@ async function addEmployee(req, res) {
   }
 }
 
+async function updateEmployee(req, res) {
+  const id = Number(req.params.id);
+  const { fullName, email, username, status } = req.body;
+  const statuses = ["active", "inactive"];
+
+  if (isNaN(id) || id <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Employee ID",
+    });
+  }
+  if (!fullName || !email || !username || !status) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    });
+  }
+  if (!statuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Status must be active or inactive",
+    });
+  }
+  try {
+    const existingEmployee = await employeeModel.getEmployeeById(id);
+    if (!existingEmployee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+    const existingEmailUsername =
+      await employeeModel.getEmployeeByEmailOrUsername(email, username);
+    if (existingEmailUsername && existingEmailUsername.id !== id) {
+      return res.status(409).json({
+        success: false,
+        message: "Email or username already exists",
+      });
+    }
+
+    await employeeModel.updateEmployee(fullName, email, username, status, id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee updated successfully",
+    });
+  } catch (err) {
+    console.error("Error in employeeController", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error while updating employee",
+    });
+  }
+}
+
 module.exports = {
   getEmployees,
   addEmployee,
+  updateEmployee,
 };
