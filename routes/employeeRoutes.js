@@ -1,0 +1,9 @@
+const employeeController = require("../controllers/employeeController");
+const express = require("express");
+const router = express.Router();
+const { verifyToken } = require("../middlewares/authMiddleware");
+const { authorizeAdmin } = require("../middlewares/authorizeAdmin");
+
+router.get("/", verifyToken, authorizeAdmin, employeeController.getEmployees);
+
+module.exports = router;

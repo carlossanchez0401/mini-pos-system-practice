@@ -19,9 +19,9 @@ async function createAdmin(fullName, email, username, password, role, status) {
 }
 
 createAdmin(
-  "Bong go",
-  "user123456@gmail.com",
-  "user123456",
+  "Bong good",
+  "admin6@gmail.com",
+  "admin",
   "123456",
   "employee",
   "active",

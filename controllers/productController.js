@@ -127,7 +127,7 @@ async function updateProduct(req, res) {
     return res.status(200).json({
       success: true,
       message: "Product Updated",
-      results: {
+      data: {
         productId: id,
       },
     });
