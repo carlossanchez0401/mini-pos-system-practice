@@ -5,5 +5,6 @@ const { verifyToken } = require("../middlewares/authMiddleware");
 const { authorizeAdmin } = require("../middlewares/authorizeAdmin");
 
 router.get("/", verifyToken, authorizeAdmin, employeeController.getEmployees);
+router.post("/", verifyToken, authorizeAdmin, employeeController.addEmployee);
 
 module.exports = router;
