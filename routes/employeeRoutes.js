@@ -6,8 +6,8 @@ const { authorizeAdmin } = require("../middlewares/authorizeAdmin");
 
 router.get("/", verifyToken, authorizeAdmin, employeeController.getEmployees);
 router.post("/", verifyToken, authorizeAdmin, employeeController.addEmployee);
-router.pust(
-  "/",
+router.put(
+  "/:id",
   verifyToken,
   authorizeAdmin,
   employeeController.updateEmployee,
