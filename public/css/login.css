@@ -1,0 +1,251 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --page-background: #f2f5f9;
+  --card-background: #ffffff;
+  --primary: #1565c0;
+  --primary-hover: #0d4f9c;
+  --primary-soft: #e8f1fc;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --border: #d9e0e8;
+  --input-background: #f9fafb;
+  --error: #c62828;
+  --error-background: #fff1f1;
+  --success: #237a3b;
+  --success-background: #edf9f0;
+  --loading: #1565c0;
+  --loading-background: #eef5fd;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-dark);
+  background:
+    linear-gradient(135deg, rgba(21, 101, 192, 0.08), transparent 45%),
+    var(--page-background);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+}
+
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  padding: 38px;
+  overflow: hidden;
+  background-color: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow:
+    0 16px 40px rgba(31, 41, 55, 0.1),
+    0 4px 12px rgba(31, 41, 55, 0.05);
+}
+
+.auth-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-color: var(--primary);
+}
+
+.auth-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.app-label {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 7px 12px;
+  color: var(--primary);
+  background-color: var(--primary-soft);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.auth-header h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.auth-header > p:last-child {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  color: var(--text-dark);
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #9ca3af;
+}
+
+.form-control:hover {
+  border-color: #aeb9c7;
+}
+
+.form-control:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.12);
+}
+
+.password-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.btn {
+  min-height: 44px;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  width: 100%;
+  min-height: 49px;
+  color: #ffffff;
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  min-width: 115px;
+  color: var(--primary);
+  background-color: #ffffff;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-soft);
+  border-color: #aac7e8;
+}
+
+.message {
+  margin-top: 18px;
+  padding: 13px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.loading-message {
+  color: var(--loading);
+  background-color: var(--loading-background);
+  border-color: #c9def5;
+}
+
+.error-message {
+  color: var(--error);
+  background-color: var(--error-background);
+  border-color: #f0c4c4;
+}
+
+.success-message {
+  color: var(--success);
+  background-color: var(--success-background);
+  border-color: #bfe3c8;
+}
+
+[hidden] {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .auth-page {
+    padding: 20px 14px;
+  }
+
+  .auth-card {
+    padding: 32px 22px;
+  }
+
+  .auth-header h1 {
+    font-size: 24px;
+  }
+
+  .password-field {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-secondary {
+    width: 100%;
+  }
+}
