@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Transactions | Mini POS System</title>
+    <link rel="stylesheet" href="css/admin-transactions.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Admin navigation">
+        <div class="sidebar-brand">
+          <a href="admin-dashboard.html">Mini POS Admin</a>
+        </div>
+
+        <div class="sidebar-profile">
+          <p class="profile-name" id="adminName">Maria Santos</p>
+          <p class="profile-role" id="adminRole">Administrator</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li><a href="admin-employees.html">Employees</a></li>
+            <li><a href="admin-products.html">Products</a></li>
+            <li>
+              <a
+                class="active"
+                href="admin-transactions.html"
+                aria-current="page"
+              >
+                Transactions
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <button class="btn btn-danger" id="logoutButton" type="button">
+          Log out
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Admin Workspace</p>
+            <h1>Transaction Reports</h1>
+            <p>
+              Review and analyze transactions from all authorized employees.
+            </p>
+          </div>
+
+          <!-- Connect report export functionality here later -->
+          <button
+            class="btn btn-secondary"
+            id="exportReportButton"
+            type="button"
+          >
+            Export report
+          </button>
+        </header>
+
+        <section
+          class="card filter-section"
+          aria-labelledby="adminTransactionFiltersHeading"
+        >
+          <header class="section-header">
+            <div>
+              <h2 id="adminTransactionFiltersHeading">Search and Filters</h2>
+              <p>Filter transaction records across the POS system.</p>
+            </div>
+          </header>
+
+          <!-- Connect admin transaction filters using JavaScript later -->
+          <form id="adminTransactionFilterForm" class="filter-form" action="#">
+            <div class="form-group">
+              <label for="adminTransactionSearchInput"
+                >Search transaction</label
+              >
+              <input
+                class="form-control"
+                id="adminTransactionSearchInput"
+                type="search"
+                placeholder="Search by transaction ID"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="employeeFilter">Employee</label>
+              <select class="form-control" id="employeeFilter">
+                <option value="all">All employees</option>
+                <option value="EMP-001">Juan Dela Cruz</option>
+                <option value="EMP-002">Ana Reyes</option>
+                <option value="EMP-003">Mark Villanueva</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adminTransactionStatusFilter"
+                >Transaction status</label
+              >
+              <select class="form-control" id="adminTransactionStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="completed">Completed</option>
+                <option value="voided">Voided</option>
+                <option value="refunded">Refunded</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adminTransactionStartDate">Start date</label>
+              <input
+                class="form-control"
+                id="adminTransactionStartDate"
+                type="date"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="adminTransactionEndDate">End date</label>
+              <input
+                class="form-control"
+                id="adminTransactionEndDate"
+                type="date"
+              />
+            </div>
+
+            <button
+              class="btn btn-primary"
+              id="applyAdminTransactionFilterButton"
+              type="submit"
+            >
+              Apply filter
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              id="resetAdminTransactionFilterButton"
+              type="button"
+            >
+              Reset filter
+            </button>
+          </form>
+        </section>
+
+        <div
+          class="message loading-message"
+          id="adminTransactionLoading"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Loading transaction records...
+        </div>
+
+        <div
+          class="message error-message"
+          id="adminTransactionError"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          Unable to load transaction records.
+        </div>
+
+        <!-- Replace these values with filtered transaction totals later -->
+        <section class="summary-grid" aria-label="Filtered transaction summary">
+          <article class="card summary-card">
+            <p>Total filtered sales</p>
+            <strong id="totalFilteredSales">₱38,950.00</strong>
+            <span>Based on selected filters</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Total filtered transactions</p>
+            <strong id="totalFilteredTransactions">168</strong>
+            <span>Based on selected filters</span>
+          </article>
+        </section>
+
+        <section class="card" aria-labelledby="adminTransactionTableHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="adminTransactionTableHeading">Transaction Records</h2>
+              <p>
+                Placeholder records from multiple employees are shown below.
+              </p>
+            </div>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Transaction ID</th>
+                  <th scope="col">Employee</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Total items</th>
+                  <th scope="col">Total amount</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col">Change</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+
+              <!-- Replace placeholder transaction rows using backend data later -->
+              <tbody id="adminTransactionTableBody">
+                <tr>
+                  <td>TRX-1005</td>
+                  <td>Juan Dela Cruz</td>
+                  <td>July 12, 2026</td>
+                  <td>1:35 PM</td>
+                  <td>4</td>
+                  <td>₱480.00</td>
+                  <td>₱500.00</td>
+                  <td>₱20.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-secondary view-admin-transaction-button"
+                      type="button"
+                      data-transaction-id="TRX-1005"
+                    >
+                      View details
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>TRX-1004</td>
+                  <td>Ana Reyes</td>
+                  <td>July 12, 2026</td>
+                  <td>12:22 PM</td>
+                  <td>2</td>
+                  <td>₱225.00</td>
+                  <td>₱250.00</td>
+                  <td>₱25.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-secondary view-admin-transaction-button"
+                      type="button"
+                      data-transaction-id="TRX-1004"
+                    >
+                      View details
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>TRX-1003</td>
+                  <td>Mark Villanueva</td>
+                  <td>July 12, 2026</td>
+                  <td>11:08 AM</td>
+                  <td>1</td>
+                  <td>₱95.00</td>
+                  <td>₱100.00</td>
+                  <td>₱5.00</td>
+                  <td>
+                    <span class="status-badge status-refunded">Refunded</span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-secondary view-admin-transaction-button"
+                      type="button"
+                      data-transaction-id="TRX-1003"
+                    >
+                      View details
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="adminTransactionEmptyState" hidden>
+            <h3>No transactions found</h3>
+            <p>No transaction records match the selected filters.</p>
+          </div>
+        </section>
+
+        <section class="chart-grid" aria-label="Admin transaction analytics">
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Sales Analytics</h2>
+            </header>
+
+            <!-- Replace this placeholder with a real chart later -->
+            <div class="chart-placeholder" id="salesAnalyticsChart">
+              Sales Analytics Placeholder
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Employee Sales Comparison</h2>
+            </header>
+
+            <!-- Replace this placeholder with a real chart later -->
+            <div class="chart-placeholder" id="employeeSalesComparisonChart">
+              Employee Sales Comparison Placeholder
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <!-- Open and populate this transaction details modal using JavaScript later -->
+    <div
+      class="modal"
+      id="adminTransactionDetailsModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="adminTransactionDetailsTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <div>
+            <p>System transaction record</p>
+            <h2 id="adminTransactionDetailsTitle">Transaction Details</h2>
+          </div>
+
+          <button
+            class="btn btn-secondary modal-close-button"
+            id="closeAdminTransactionDetailsButton"
+            type="button"
+            aria-label="Close transaction details"
+          >
+            Close
+          </button>
+        </header>
+
+        <div class="transaction-detail-grid">
+          <p>
+            Transaction ID:
+            <strong id="adminModalTransactionId">TRX-1005</strong>
+          </p>
+          <p>
+            Employee: <span id="adminModalEmployeeName">Juan Dela Cruz</span>
+          </p>
+          <p>Date: <span id="adminModalTransactionDate">July 12, 2026</span></p>
+          <p>Time: <span id="adminModalTransactionTime">1:35 PM</span></p>
+          <p>Status: <span id="adminModalTransactionStatus">Completed</span></p>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Line total</th>
+              </tr>
+            </thead>
+            <tbody id="adminModalTransactionItems">
+              <tr>
+                <td>Classic Burger</td>
+                <td>₱120.00</td>
+                <td>2</td>
+                <td>₱240.00</td>
+              </tr>
+              <tr>
+                <td>Iced Coffee</td>
+                <td>₱85.00</td>
+                <td>2</td>
+                <td>₱170.00</td>
+              </tr>
+              <tr>
+                <td>Potato Chips</td>
+                <td>₱35.00</td>
+                <td>2</td>
+                <td>₱70.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <dl class="transaction-totals">
+          <div>
+            <dt>Total amount</dt>
+            <dd id="adminModalTransactionTotal">₱480.00</dd>
+          </div>
+          <div>
+            <dt>Payment</dt>
+            <dd id="adminModalTransactionPayment">₱500.00</dd>
+          </div>
+          <div>
+            <dt>Change</dt>
+            <dd id="adminModalTransactionChange">₱20.00</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Connect the admin transactions JavaScript file here later -->
+    <script src="../js/admin-transactions.js"></script>
+  </body>
+</html>

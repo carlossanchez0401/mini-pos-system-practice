@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management | Mini POS System</title>
+    <link rel="stylesheet" href="css/admin-employees.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Admin navigation">
+        <div class="sidebar-brand">
+          <a href="admin-dashboard.html">Mini POS Admin</a>
+        </div>
+
+        <div class="sidebar-profile">
+          <p class="profile-name" id="adminName">Maria Santos</p>
+          <p class="profile-role" id="adminRole">Administrator</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li>
+              <a class="active" href="admin-employees.html" aria-current="page">
+                Employees
+              </a>
+            </li>
+            <li><a href="admin-products.html">Products</a></li>
+            <li><a href="admin-transactions.html">Transactions</a></li>
+          </ul>
+        </nav>
+
+        <button class="btn btn-danger" id="logoutButton" type="button">
+          Log out
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Admin Workspace</p>
+            <h1>Employee Management</h1>
+            <p>
+              Add, update, activate, deactivate, and review employee accounts.
+            </p>
+          </div>
+
+          <!-- Open the add employee modal using JavaScript later -->
+          <button class="btn btn-primary" id="addEmployeeButton" type="button">
+            Add employee
+          </button>
+        </header>
+
+        <section
+          class="card filter-section"
+          aria-labelledby="employeeFiltersHeading"
+        >
+          <header class="section-header">
+            <div>
+              <h2 id="employeeFiltersHeading">Search and Filters</h2>
+              <p>Find employee records using the controls below.</p>
+            </div>
+          </header>
+
+          <!-- Connect employee search and filters using JavaScript later -->
+          <form id="employeeFilterForm" class="filter-form" action="#">
+            <div class="form-group">
+              <label for="employeeSearchInput">Search employee</label>
+              <input
+                class="form-control"
+                id="employeeSearchInput"
+                type="search"
+                placeholder="Search by name, email, or username"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="employeeStatusFilter">Account status</label>
+              <select class="form-control" id="employeeStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="employeeRoleFilter">Role</label>
+              <select class="form-control" id="employeeRoleFilter">
+                <option value="all">All roles</option>
+                <option value="employee">Employee</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <button
+              class="btn btn-primary"
+              id="applyEmployeeFilterButton"
+              type="submit"
+            >
+              Apply filters
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              id="resetEmployeeFilterButton"
+              type="button"
+            >
+              Reset
+            </button>
+          </form>
+        </section>
+
+        <div
+          class="message success-message"
+          id="employeeSuccessMessage"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Employee record updated successfully.
+        </div>
+
+        <div
+          class="message error-message"
+          id="employeeErrorMessage"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          Unable to process the employee request.
+        </div>
+
+        <div
+          class="message loading-message"
+          id="employeeLoadingMessage"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Loading employee records...
+        </div>
+
+        <section class="card" aria-labelledby="employeesTableHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="employeesTableHeading">Employee Accounts</h2>
+              <p>Placeholder employee records are shown below.</p>
+            </div>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Employee ID</th>
+                  <th scope="col">Full name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Date created</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+
+              <!-- Replace placeholder employee rows using backend data later -->
+              <tbody id="employeeTableBody">
+                <tr>
+                  <td>EMP-001</td>
+                  <td>Juan Dela Cruz</td>
+                  <td>juan@example.com</td>
+                  <td>juan.dc</td>
+                  <td>Employee</td>
+                  <td>
+                    <span class="status-badge status-active">Active</span>
+                  </td>
+                  <td>June 2, 2026</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn btn-secondary edit-employee-button"
+                        type="button"
+                        data-employee-id="EMP-001"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-danger change-status-button"
+                        type="button"
+                        data-employee-id="EMP-001"
+                        data-next-status="inactive"
+                      >
+                        Deactivate
+                      </button>
+                      <button
+                        class="btn btn-secondary view-employee-report-button"
+                        type="button"
+                        data-employee-id="EMP-001"
+                      >
+                        View report
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>EMP-002</td>
+                  <td>Ana Reyes</td>
+                  <td>ana@example.com</td>
+                  <td>ana.reyes</td>
+                  <td>Employee</td>
+                  <td>
+                    <span class="status-badge status-active">Active</span>
+                  </td>
+                  <td>June 4, 2026</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn btn-secondary edit-employee-button"
+                        type="button"
+                        data-employee-id="EMP-002"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-danger change-status-button"
+                        type="button"
+                        data-employee-id="EMP-002"
+                        data-next-status="inactive"
+                      >
+                        Deactivate
+                      </button>
+                      <button
+                        class="btn btn-secondary view-employee-report-button"
+                        type="button"
+                        data-employee-id="EMP-002"
+                      >
+                        View report
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>EMP-003</td>
+                  <td>Mark Villanueva</td>
+                  <td>mark@example.com</td>
+                  <td>mark.v</td>
+                  <td>Employee</td>
+                  <td>
+                    <span class="status-badge status-inactive">Inactive</span>
+                  </td>
+                  <td>June 10, 2026</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn btn-secondary edit-employee-button"
+                        type="button"
+                        data-employee-id="EMP-003"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-primary change-status-button"
+                        type="button"
+                        data-employee-id="EMP-003"
+                        data-next-status="active"
+                      >
+                        Activate
+                      </button>
+                      <button
+                        class="btn btn-secondary view-employee-report-button"
+                        type="button"
+                        data-employee-id="EMP-003"
+                      >
+                        View report
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="employeeEmptyState" hidden>
+            <h3>No employees found</h3>
+            <p>No employee accounts match the selected search or filters.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Open and submit this add employee modal using JavaScript later -->
+    <div
+      class="modal"
+      id="addEmployeeModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="addEmployeeModalTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <div>
+            <p>New account</p>
+            <h2 id="addEmployeeModalTitle">Add Employee</h2>
+          </div>
+          <button
+            class="btn btn-secondary modal-close-button"
+            id="closeAddEmployeeModalButton"
+            type="button"
+            aria-label="Close add employee modal"
+          >
+            Close
+          </button>
+        </header>
+
+        <form id="addEmployeeForm" action="#" method="post">
+          <div class="form-group">
+            <label for="addEmployeeFullName">Full name</label>
+            <input
+              class="form-control"
+              id="addEmployeeFullName"
+              name="fullName"
+              type="text"
+              placeholder="Enter full name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addEmployeeEmail">Email</label>
+            <input
+              class="form-control"
+              id="addEmployeeEmail"
+              name="email"
+              type="email"
+              placeholder="employee@example.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addEmployeeUsername">Username</label>
+            <input
+              class="form-control"
+              id="addEmployeeUsername"
+              name="username"
+              type="text"
+              placeholder="Enter username"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addEmployeePassword">Password</label>
+            <input
+              class="form-control"
+              id="addEmployeePassword"
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addEmployeeConfirmPassword">Confirm password</label>
+            <input
+              class="form-control"
+              id="addEmployeeConfirmPassword"
+              name="confirmPassword"
+              type="password"
+              placeholder="Re-enter password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addEmployeeRole">Role</label>
+            <select
+              class="form-control"
+              id="addEmployeeRole"
+              name="role"
+              required
+            >
+              <option value="">Select a role</option>
+              <option value="employee">Employee</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="addEmployeeStatus">Account status</label>
+            <select
+              class="form-control"
+              id="addEmployeeStatus"
+              name="status"
+              required
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+
+          <footer class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              id="cancelAddEmployeeButton"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-primary" type="submit">Add employee</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+
+    <!-- Populate and submit this edit employee modal using JavaScript later -->
+    <div
+      class="modal"
+      id="editEmployeeModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="editEmployeeModalTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <div>
+            <p>Existing account</p>
+            <h2 id="editEmployeeModalTitle">Edit Employee</h2>
+          </div>
+          <button
+            class="btn btn-secondary modal-close-button"
+            id="closeEditEmployeeModalButton"
+            type="button"
+            aria-label="Close edit employee modal"
+          >
+            Close
+          </button>
+        </header>
+
+        <form id="editEmployeeForm" action="#" method="post">
+          <input id="editEmployeeId" name="employeeId" type="hidden" />
+
+          <div class="form-group">
+            <label for="editEmployeeFullName">Full name</label>
+            <input
+              class="form-control"
+              id="editEmployeeFullName"
+              name="fullName"
+              type="text"
+              value="Juan Dela Cruz"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editEmployeeEmail">Email</label>
+            <input
+              class="form-control"
+              id="editEmployeeEmail"
+              name="email"
+              type="email"
+              value="juan@example.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editEmployeeUsername">Username</label>
+            <input
+              class="form-control"
+              id="editEmployeeUsername"
+              name="username"
+              type="text"
+              value="juan.dc"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editEmployeeRole">Role</label>
+            <select
+              class="form-control"
+              id="editEmployeeRole"
+              name="role"
+              required
+            >
+              <option value="employee" selected>Employee</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="editEmployeeStatus">Account status</label>
+            <select
+              class="form-control"
+              id="editEmployeeStatus"
+              name="status"
+              required
+            >
+              <option value="active" selected>Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+
+          <footer class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              id="cancelEditEmployeeButton"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+
+    <!-- Use this confirmation modal before activating or deactivating an employee -->
+    <div
+      class="modal"
+      id="employeeConfirmationModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="employeeConfirmationTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 id="employeeConfirmationTitle">Confirm Account Status Change</h2>
+        </header>
+
+        <p id="employeeConfirmationMessage">
+          Are you sure you want to deactivate this employee account?
+        </p>
+
+        <input id="confirmationEmployeeId" type="hidden" />
+        <input id="confirmationEmployeeStatus" type="hidden" />
+
+        <footer class="modal-footer">
+          <button
+            class="btn btn-secondary"
+            id="cancelEmployeeStatusButton"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-danger"
+            id="confirmEmployeeStatusButton"
+            type="button"
+          >
+            Confirm
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Connect the admin employees JavaScript file here later -->
+    <script src="../js/admin-employees.js"></script>
+  </body>
+</html>

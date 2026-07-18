@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Mini POS System</title>
+    <link rel="stylesheet" href="css/admin-dashboard.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Admin navigation">
+        <div class="sidebar-brand">
+          <a href="admin-dashboard.html">Mini POS Admin</a>
+        </div>
+
+        <div class="sidebar-profile">
+          <p class="profile-name" id="adminName">Maria Santos</p>
+          <p class="profile-role" id="adminRole">Administrator</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a class="active" href="admin-dashboard.html" aria-current="page">
+                Dashboard
+              </a>
+            </li>
+            <li><a href="admin-employees.html">Employees</a></li>
+            <li><a href="admin-products.html">Products</a></li>
+            <li><a href="admin-transactions.html">Transactions</a></li>
+          </ul>
+        </nav>
+
+        <button class="btn btn-danger" id="logoutButton" type="button">
+          Log out
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Admin Workspace</p>
+            <h1>Dashboard Overview</h1>
+            <p>
+              Review system-wide sales, transactions, and employee performance.
+            </p>
+          </div>
+
+          <div class="admin-summary">
+            <span id="headerAdminName">Maria Santos</span>
+            <span id="headerAdminRole">Administrator</span>
+          </div>
+        </header>
+
+        <div
+          class="message loading-message"
+          id="dashboardLoading"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Loading dashboard data...
+        </div>
+
+        <div
+          class="message error-message"
+          id="dashboardError"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          Unable to load dashboard data.
+        </div>
+
+        <!-- Replace summary values with dashboard analytics later -->
+        <section class="summary-grid" aria-label="Admin dashboard summary">
+          <article class="card summary-card">
+            <p>Total employees</p>
+            <strong id="dashboardTotalEmployees">12</strong>
+            <span>10 active accounts</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Total sales</p>
+            <strong id="dashboardTotalSales">₱245,680.00</strong>
+            <span>Current reporting period</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Total transactions</p>
+            <strong id="dashboardTotalTransactions">1,024</strong>
+            <span>Completed transactions</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Total products sold</p>
+            <strong id="dashboardProductsSold">3,870</strong>
+            <span>All product quantities</span>
+          </article>
+        </section>
+
+        <section class="chart-grid" aria-label="Admin analytics">
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Daily Sales</h2>
+            </header>
+            <div class="chart-placeholder" id="dailySalesChart">
+              Daily Sales Chart
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Weekly Sales</h2>
+            </header>
+            <div class="chart-placeholder" id="weeklySalesChart">
+              Weekly Sales Chart
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Monthly Sales</h2>
+            </header>
+            <div class="chart-placeholder" id="monthlySalesChart">
+              Monthly Sales Chart
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Sales by Employee</h2>
+            </header>
+            <div class="chart-placeholder" id="salesByEmployeeChart">
+              Sales by Employee Chart
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Top-Selling Products</h2>
+            </header>
+            <div class="chart-placeholder" id="topSellingProductsChart">
+              Top-Selling Products Chart
+            </div>
+          </article>
+        </section>
+
+        <section class="card" aria-labelledby="recentTransactionsHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="recentTransactionsHeading">Recent Transactions</h2>
+              <p>Latest transactions from all authorized employee accounts.</p>
+            </div>
+            <a class="btn btn-secondary" href="admin-transactions.html">
+              View all transactions
+            </a>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Transaction ID</th>
+                  <th scope="col">Employee</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Total items</th>
+                  <th scope="col">Total amount</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+
+              <!-- Replace placeholder rows using backend data later -->
+              <tbody id="dashboardRecentTransactionsTableBody">
+                <tr>
+                  <td>TRX-1005</td>
+                  <td>Juan Dela Cruz</td>
+                  <td>July 12, 2026</td>
+                  <td>4</td>
+                  <td>₱480.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>TRX-1004</td>
+                  <td>Ana Reyes</td>
+                  <td>July 12, 2026</td>
+                  <td>2</td>
+                  <td>₱225.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>TRX-1003</td>
+                  <td>Mark Villanueva</td>
+                  <td>July 12, 2026</td>
+                  <td>1</td>
+                  <td>₱95.00</td>
+                  <td>
+                    <span class="status-badge status-refunded">Refunded</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="employeePerformanceHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="employeePerformanceHeading">Employee Performance</h2>
+              <p>Placeholder performance summary for each employee.</p>
+            </div>
+            <a class="btn btn-secondary" href="admin-employees.html">
+              Manage employees
+            </a>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Employee</th>
+                  <th scope="col">Transactions</th>
+                  <th scope="col">Products sold</th>
+                  <th scope="col">Total sales</th>
+                  <th scope="col">Average sale</th>
+                </tr>
+              </thead>
+
+              <!-- Render employee performance data here later -->
+              <tbody id="employeePerformanceTableBody">
+                <tr>
+                  <td>Juan Dela Cruz</td>
+                  <td>58</td>
+                  <td>143</td>
+                  <td>₱12,850.00</td>
+                  <td>₱221.55</td>
+                </tr>
+                <tr>
+                  <td>Ana Reyes</td>
+                  <td>54</td>
+                  <td>132</td>
+                  <td>₱11,975.00</td>
+                  <td>₱221.76</td>
+                </tr>
+                <tr>
+                  <td>Mark Villanueva</td>
+                  <td>49</td>
+                  <td>118</td>
+                  <td>₱10,620.00</td>
+                  <td>₱216.73</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Connect the admin dashboard JavaScript file here later -->
+    <script src="../js/admin-dashboard.js"></script>
+  </body>
+</html>

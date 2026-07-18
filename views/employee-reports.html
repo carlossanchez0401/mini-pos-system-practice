@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Sales Reports | Mini POS System</title>
+    <link rel="stylesheet" href="css/employee-reports.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Employee navigation">
+        <div class="sidebar-brand">
+          <a href="employee-pos.html">Mini POS System</a>
+        </div>
+
+        <div class="sidebar-profile">
+          <p class="profile-name" id="employeeName">Juan Dela Cruz</p>
+          <p class="profile-role" id="employeeRole">Employee</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="employee-pos.html">Point of Sale</a></li>
+            <li><a href="employee-transactions.html">My Transactions</a></li>
+            <li>
+              <a
+                class="active"
+                href="employee-reports.html"
+                aria-current="page"
+              >
+                My Reports
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <button class="btn btn-danger" id="logoutButton" type="button">
+          Log out
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Employee Workspace</p>
+            <h1>My Sales Reports</h1>
+            <p>View sales data connected to your employee account.</p>
+          </div>
+
+          <div class="employee-summary">
+            <span id="headerEmployeeName">Juan Dela Cruz</span>
+            <span id="headerEmployeeRole">Employee</span>
+          </div>
+        </header>
+
+        <section
+          class="card filter-section"
+          aria-labelledby="reportFilterHeading"
+        >
+          <header class="section-header">
+            <div>
+              <h2 id="reportFilterHeading">Report Date Range</h2>
+              <p>Select a date range for your report.</p>
+            </div>
+          </header>
+
+          <!-- Connect report filter JavaScript here later -->
+          <form id="employeeReportFilterForm" class="filter-form" action="#">
+            <div class="form-group">
+              <label for="reportStartDate">Start date</label>
+              <input class="form-control" id="reportStartDate" type="date" />
+            </div>
+
+            <div class="form-group">
+              <label for="reportEndDate">End date</label>
+              <input class="form-control" id="reportEndDate" type="date" />
+            </div>
+
+            <button
+              class="btn btn-primary"
+              id="applyReportFilterButton"
+              type="submit"
+            >
+              Apply filter
+            </button>
+          </form>
+        </section>
+
+        <div
+          class="message loading-message"
+          id="reportLoading"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Loading report data...
+        </div>
+
+        <div
+          class="message error-message"
+          id="reportError"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          Unable to load report data.
+        </div>
+
+        <!-- Replace summary values with analytics data later -->
+        <section class="summary-grid" aria-label="Employee sales summary">
+          <article class="card summary-card">
+            <p>Total sales</p>
+            <strong id="employeeTotalSales">₱12,850.00</strong>
+            <span>Selected date range</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Total transactions</p>
+            <strong id="employeeTotalTransactions">58</strong>
+            <span>Completed sales</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Average transaction value</p>
+            <strong id="employeeAverageTransaction">₱221.55</strong>
+            <span>Sales divided by transactions</span>
+          </article>
+
+          <article class="card summary-card">
+            <p>Total products sold</p>
+            <strong id="employeeProductsSold">143</strong>
+            <span>All product quantities</span>
+          </article>
+        </section>
+
+        <section class="chart-grid" aria-label="Employee sales charts">
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Daily Sales</h2>
+            </header>
+
+            <!-- Replace this placeholder with a real chart later -->
+            <div class="chart-placeholder" id="dailySalesChart">
+              Daily Sales Chart
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Weekly Sales</h2>
+            </header>
+
+            <!-- Replace this placeholder with a real chart later -->
+            <div class="chart-placeholder" id="weeklySalesChart">
+              Weekly Sales Chart
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <header class="section-header">
+              <h2>Monthly Sales</h2>
+            </header>
+
+            <!-- Replace this placeholder with a real chart later -->
+            <div class="chart-placeholder" id="monthlySalesChart">
+              Monthly Sales Chart
+            </div>
+          </article>
+        </section>
+
+        <section class="card" aria-labelledby="topProductsHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="topProductsHeading">Top-Selling Products</h2>
+              <p>Products sold by the logged-in employee.</p>
+            </div>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Rank</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Quantity sold</th>
+                  <th scope="col">Sales amount</th>
+                </tr>
+              </thead>
+
+              <!-- Render top-selling product data here later -->
+              <tbody id="topSellingProductsTableBody">
+                <tr>
+                  <td>1</td>
+                  <td>Classic Burger</td>
+                  <td>Meals</td>
+                  <td>42</td>
+                  <td>₱5,040.00</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Iced Coffee</td>
+                  <td>Beverages</td>
+                  <td>35</td>
+                  <td>₱2,975.00</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Chocolate Cake</td>
+                  <td>Desserts</td>
+                  <td>20</td>
+                  <td>₱1,900.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="recentTransactionsHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="recentTransactionsHeading">Recent Transactions</h2>
+              <p>Your most recent completed transactions.</p>
+            </div>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Transaction ID</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Total items</th>
+                  <th scope="col">Total amount</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+
+              <!-- Render recent transaction data here later -->
+              <tbody id="recentEmployeeTransactionsTableBody">
+                <tr>
+                  <td>TRX-1002</td>
+                  <td>July 12, 2026</td>
+                  <td>2</td>
+                  <td>₱205.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>TRX-1001</td>
+                  <td>July 12, 2026</td>
+                  <td>3</td>
+                  <td>₱325.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="empty-state" id="reportEmptyState" hidden>
+          <h3>No report data available</h3>
+          <p>
+            There are no completed transactions for the selected date range.
+          </p>
+        </div>
+      </main>
+    </div>
+
+    <!-- Connect the employee reports JavaScript file here later -->
+    <script src="../js/employee-reports.js"></script>
+  </body>
+</html>

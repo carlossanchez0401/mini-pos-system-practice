@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Transactions | Mini POS System</title>
+    <link rel="stylesheet" href="css/employee-transactions.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Employee navigation">
+        <div class="sidebar-brand">
+          <a href="employee-pos.html">Mini POS System</a>
+        </div>
+
+        <div class="sidebar-profile">
+          <p class="profile-name" id="employeeName">Juan Dela Cruz</p>
+          <p class="profile-role" id="employeeRole">Employee</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="employee-pos.html">Point of Sale</a></li>
+            <li>
+              <a
+                class="active"
+                href="employee-transactions.html"
+                aria-current="page"
+              >
+                My Transactions
+              </a>
+            </li>
+            <li><a href="employee-reports.html">My Reports</a></li>
+          </ul>
+        </nav>
+
+        <button class="btn btn-danger" id="logoutButton" type="button">
+          Log out
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Employee Workspace</p>
+            <h1>My Transaction History</h1>
+            <p>View transactions processed by your employee account.</p>
+          </div>
+
+          <div class="employee-summary">
+            <span id="headerEmployeeName">Juan Dela Cruz</span>
+            <span id="headerEmployeeRole">Employee</span>
+          </div>
+        </header>
+
+        <section class="card filter-section" aria-labelledby="filtersHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="filtersHeading">Search and Filters</h2>
+              <p>Filter your own transaction records.</p>
+            </div>
+          </header>
+
+          <!-- Connect transaction search and filter JavaScript here later -->
+          <form id="transactionFilterForm" class="filter-form" action="#">
+            <div class="form-group">
+              <label for="transactionSearchInput">Search transaction</label>
+              <input
+                class="form-control"
+                id="transactionSearchInput"
+                type="search"
+                placeholder="Search by transaction ID"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="transactionStartDate">Start date</label>
+              <input
+                class="form-control"
+                id="transactionStartDate"
+                type="date"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="transactionEndDate">End date</label>
+              <input class="form-control" id="transactionEndDate" type="date" />
+            </div>
+
+            <div class="form-group">
+              <label for="transactionStatusFilter">Status</label>
+              <select class="form-control" id="transactionStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="completed">Completed</option>
+                <option value="voided">Voided</option>
+                <option value="refunded">Refunded</option>
+              </select>
+            </div>
+
+            <button
+              class="btn btn-primary"
+              id="applyTransactionFilterButton"
+              type="submit"
+            >
+              Apply filters
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              id="resetTransactionFilterButton"
+              type="button"
+            >
+              Reset
+            </button>
+          </form>
+        </section>
+
+        <section class="card" aria-labelledby="transactionTableHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="transactionTableHeading">Transactions</h2>
+              <p>Placeholder records are shown below.</p>
+            </div>
+          </header>
+
+          <div
+            class="message loading-message"
+            id="transactionLoading"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            Loading transactions...
+          </div>
+
+          <div
+            class="message error-message"
+            id="transactionError"
+            role="alert"
+            aria-live="assertive"
+            hidden
+          >
+            Unable to load transactions.
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <caption class="sr-only">
+                Transactions processed by the logged-in employee
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Transaction ID</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Total items</th>
+                  <th scope="col">Total amount</th>
+                  <th scope="col">Payment amount</th>
+                  <th scope="col">Change</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+
+              <!-- Replace placeholder transaction rows using backend data later -->
+              <tbody id="transactionTableBody">
+                <tr>
+                  <td>TRX-1001</td>
+                  <td>July 12, 2026</td>
+                  <td>10:15 AM</td>
+                  <td>3</td>
+                  <td>₱325.00</td>
+                  <td>₱500.00</td>
+                  <td>₱175.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-secondary view-transaction-button"
+                      type="button"
+                      data-transaction-id="TRX-1001"
+                    >
+                      View details
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>TRX-1002</td>
+                  <td>July 12, 2026</td>
+                  <td>11:42 AM</td>
+                  <td>2</td>
+                  <td>₱205.00</td>
+                  <td>₱250.00</td>
+                  <td>₱45.00</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-secondary view-transaction-button"
+                      type="button"
+                      data-transaction-id="TRX-1002"
+                    >
+                      View details
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>TRX-0998</td>
+                  <td>July 11, 2026</td>
+                  <td>4:08 PM</td>
+                  <td>1</td>
+                  <td>₱85.00</td>
+                  <td>₱100.00</td>
+                  <td>₱15.00</td>
+                  <td>
+                    <span class="status-badge status-voided">Voided</span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-secondary view-transaction-button"
+                      type="button"
+                      data-transaction-id="TRX-0998"
+                    >
+                      View details
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="transactionEmptyState" hidden>
+            <h3>No transactions found</h3>
+            <p>No transaction records match the selected filters.</p>
+          </div>
+
+          <!-- Connect pagination controls using JavaScript later -->
+          <nav class="pagination" aria-label="Transaction pagination">
+            <button
+              class="btn btn-secondary"
+              id="previousPageButton"
+              type="button"
+            >
+              Previous
+            </button>
+            <span id="transactionPageIndicator">Page 1 of 5</span>
+            <button class="btn btn-secondary" id="nextPageButton" type="button">
+              Next
+            </button>
+          </nav>
+        </section>
+      </main>
+    </div>
+
+    <!-- Open and populate this modal using JavaScript later -->
+    <div
+      class="modal"
+      id="transactionDetailsModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="transactionDetailsTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <div>
+            <p>Transaction record</p>
+            <h2 id="transactionDetailsTitle">Transaction Details</h2>
+          </div>
+
+          <button
+            class="btn btn-secondary modal-close-button"
+            id="closeTransactionDetailsButton"
+            type="button"
+            aria-label="Close transaction details"
+          >
+            Close
+          </button>
+        </header>
+
+        <div class="transaction-detail-grid">
+          <p>
+            Transaction ID: <strong id="modalTransactionId">TRX-1001</strong>
+          </p>
+          <p>Date: <span id="modalTransactionDate">July 12, 2026</span></p>
+          <p>Time: <span id="modalTransactionTime">10:15 AM</span></p>
+          <p>Status: <span id="modalTransactionStatus">Completed</span></p>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Line total</th>
+              </tr>
+            </thead>
+            <tbody id="modalTransactionItems">
+              <tr>
+                <td>Classic Burger</td>
+                <td>₱120.00</td>
+                <td>2</td>
+                <td>₱240.00</td>
+              </tr>
+              <tr>
+                <td>Iced Coffee</td>
+                <td>₱85.00</td>
+                <td>1</td>
+                <td>₱85.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <dl class="transaction-totals">
+          <div>
+            <dt>Total amount</dt>
+            <dd id="modalTransactionTotal">₱325.00</dd>
+          </div>
+          <div>
+            <dt>Payment amount</dt>
+            <dd id="modalTransactionPayment">₱500.00</dd>
+          </div>
+          <div>
+            <dt>Change</dt>
+            <dd id="modalTransactionChange">₱175.00</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Connect the employee transactions JavaScript file here later -->
+    <script src="../js/employee-transactions.js"></script>
+  </body>
+</html>

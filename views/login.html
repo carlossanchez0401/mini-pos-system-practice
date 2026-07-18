@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Mini POS System</title>
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+
+  <body>
+    <main class="auth-page">
+      <section class="card auth-card" aria-labelledby="loginPageTitle">
+        <header class="auth-header">
+          <p class="app-label">Mini Point of Sale System</p>
+          <h1 id="loginPageTitle">Sign in to your account</h1>
+          <p>Enter your account credentials to continue.</p>
+        </header>
+
+        <!-- Connect login JavaScript here later -->
+        <form id="loginForm" class="auth-form" action="#" method="post">
+          <div class="form-group">
+            <label for="loginEmail">Email or username</label>
+            <input
+              class="form-control"
+              id="loginEmail"
+              name="loginEmail"
+              type="text"
+              placeholder="Enter your email or username"
+              autocomplete="username"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+
+            <div class="password-field">
+              <input
+                class="form-control"
+                id="loginPassword"
+                name="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+
+              <!-- Toggle password visibility using JavaScript later -->
+              <button
+                class="btn btn-secondary"
+                id="togglePasswordButton"
+                type="button"
+                aria-controls="loginPassword"
+                aria-pressed="false"
+              >
+                Show password
+              </button>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="loginButton" type="submit">
+            Log in
+          </button>
+        </form>
+
+        <!-- Show login loading state using JavaScript later -->
+        <div
+          class="message loading-message"
+          id="loginLoading"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Signing in...
+        </div>
+
+        <!-- Show login error messages using JavaScript later -->
+        <div
+          class="message error-message"
+          id="loginMessage"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          Unable to log in. Please check your credentials.
+        </div>
+
+        <!-- Show successful login messages using JavaScript later -->
+        <div
+          class="message success-message"
+          id="loginSuccess"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Login successful.
+        </div>
+      </section>
+    </main>
+
+    <!-- Connect the login JavaScript file here later -->
+    <script src="../js/login.js"></script>
+  </body>
+</html>

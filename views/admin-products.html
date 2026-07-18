@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Management | Mini POS System</title>
+    <link rel="stylesheet" href="css/admin-products.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Admin navigation">
+        <div class="sidebar-brand">
+          <a href="admin-dashboard.html">Mini POS Admin</a>
+        </div>
+
+        <div class="sidebar-profile">
+          <p class="profile-name" id="adminName">Maria Santos</p>
+          <p class="profile-role" id="adminRole">Administrator</p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li><a href="admin-employees.html">Employees</a></li>
+            <li>
+              <a class="active" href="admin-products.html" aria-current="page">
+                Products
+              </a>
+            </li>
+            <li><a href="admin-transactions.html">Transactions</a></li>
+          </ul>
+        </nav>
+
+        <button class="btn btn-danger" id="logoutButton" type="button">
+          Log out
+        </button>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Admin Workspace</p>
+            <h1>Product Management</h1>
+            <p>Add, edit, search, filter, and remove POS products.</p>
+          </div>
+
+          <!-- Open the add product modal using JavaScript later -->
+          <button class="btn btn-primary" id="addProductButton" type="button">
+            Add product
+          </button>
+        </header>
+
+        <section
+          class="card filter-section"
+          aria-labelledby="productFiltersHeading"
+        >
+          <header class="section-header">
+            <div>
+              <h2 id="productFiltersHeading">Search and Filters</h2>
+              <p>Find products using the controls below.</p>
+            </div>
+          </header>
+
+          <!-- Connect product search and filters using JavaScript later -->
+          <form id="productFilterForm" class="filter-form" action="#">
+            <div class="form-group">
+              <label for="adminProductSearchInput">Search product</label>
+              <input
+                class="form-control"
+                id="adminProductSearchInput"
+                type="search"
+                placeholder="Search by product name or ID"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="adminCategoryFilter">Category</label>
+              <select class="form-control" id="adminCategoryFilter">
+                <option value="all">All categories</option>
+                <option value="beverages">Beverages</option>
+                <option value="snacks">Snacks</option>
+                <option value="meals">Meals</option>
+                <option value="desserts">Desserts</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adminProductStatusFilter">Product status</label>
+              <select class="form-control" id="adminProductStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="available">Available</option>
+                <option value="low-stock">Low stock</option>
+                <option value="out-of-stock">Out of stock</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+
+            <button
+              class="btn btn-primary"
+              id="applyProductFilterButton"
+              type="submit"
+            >
+              Apply filters
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              id="resetProductFilterButton"
+              type="button"
+            >
+              Reset
+            </button>
+          </form>
+        </section>
+
+        <div
+          class="message success-message"
+          id="productSuccessMessage"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Product record updated successfully.
+        </div>
+
+        <div
+          class="message error-message"
+          id="productErrorMessage"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          Unable to process the product request.
+        </div>
+
+        <div
+          class="message loading-message"
+          id="productLoadingMessage"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Loading product records...
+        </div>
+
+        <section class="card" aria-labelledby="productTableHeading">
+          <header class="section-header">
+            <div>
+              <h2 id="productTableHeading">Products</h2>
+              <p>Placeholder product records are shown below.</p>
+            </div>
+          </header>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Product ID</th>
+                  <th scope="col">Product name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Stock quantity</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Date added</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+
+              <!-- Replace placeholder product rows using backend data later -->
+              <tbody id="adminProductTableBody">
+                <tr>
+                  <td>PROD-001</td>
+                  <td>Classic Burger</td>
+                  <td>Meals</td>
+                  <td>₱120.00</td>
+                  <td>24</td>
+                  <td>
+                    <span class="status-badge status-available">Available</span>
+                  </td>
+                  <td>June 1, 2026</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn btn-secondary edit-product-button"
+                        type="button"
+                        data-product-id="PROD-001"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-danger delete-product-button"
+                        type="button"
+                        data-product-id="PROD-001"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>PROD-002</td>
+                  <td>Iced Coffee</td>
+                  <td>Beverages</td>
+                  <td>₱85.00</td>
+                  <td>18</td>
+                  <td>
+                    <span class="status-badge status-available">Available</span>
+                  </td>
+                  <td>June 1, 2026</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn btn-secondary edit-product-button"
+                        type="button"
+                        data-product-id="PROD-002"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-danger delete-product-button"
+                        type="button"
+                        data-product-id="PROD-002"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>PROD-003</td>
+                  <td>Chocolate Cake</td>
+                  <td>Desserts</td>
+                  <td>₱95.00</td>
+                  <td>3</td>
+                  <td>
+                    <span class="status-badge status-low-stock">Low stock</span>
+                  </td>
+                  <td>June 3, 2026</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="btn btn-secondary edit-product-button"
+                        type="button"
+                        data-product-id="PROD-003"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-danger delete-product-button"
+                        type="button"
+                        data-product-id="PROD-003"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="empty-state" id="productEmptyState" hidden>
+            <h3>No products found</h3>
+            <p>No product records match the selected search or filters.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Open and submit this add product modal using JavaScript later -->
+    <div
+      class="modal"
+      id="addProductModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="addProductModalTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <div>
+            <p>New product</p>
+            <h2 id="addProductModalTitle">Add Product</h2>
+          </div>
+          <button
+            class="btn btn-secondary modal-close-button"
+            id="closeAddProductModalButton"
+            type="button"
+            aria-label="Close add product modal"
+          >
+            Close
+          </button>
+        </header>
+
+        <form id="addProductForm" action="#" method="post">
+          <div class="form-group">
+            <label for="addProductName">Product name</label>
+            <input
+              class="form-control"
+              id="addProductName"
+              name="productName"
+              type="text"
+              placeholder="Enter product name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addProductCategory">Category</label>
+            <select
+              class="form-control"
+              id="addProductCategory"
+              name="category"
+              required
+            >
+              <option value="">Select a category</option>
+              <option value="beverages">Beverages</option>
+              <option value="snacks">Snacks</option>
+              <option value="meals">Meals</option>
+              <option value="desserts">Desserts</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="addProductPrice">Price</label>
+            <input
+              class="form-control"
+              id="addProductPrice"
+              name="price"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addProductStock">Stock quantity</label>
+            <input
+              class="form-control"
+              id="addProductStock"
+              name="stockQuantity"
+              type="number"
+              min="0"
+              step="1"
+              placeholder="0"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addProductStatus">Status</label>
+            <select
+              class="form-control"
+              id="addProductStatus"
+              name="status"
+              required
+            >
+              <option value="available">Available</option>
+              <option value="low-stock">Low stock</option>
+              <option value="out-of-stock">Out of stock</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+
+          <footer class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              id="cancelAddProductButton"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-primary" type="submit">Add product</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+
+    <!-- Populate and submit this edit product modal using JavaScript later -->
+    <div
+      class="modal"
+      id="editProductModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="editProductModalTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <div>
+            <p>Existing product</p>
+            <h2 id="editProductModalTitle">Edit Product</h2>
+          </div>
+          <button
+            class="btn btn-secondary modal-close-button"
+            id="closeEditProductModalButton"
+            type="button"
+            aria-label="Close edit product modal"
+          >
+            Close
+          </button>
+        </header>
+
+        <form id="editProductForm" action="#" method="post">
+          <input id="editProductId" name="productId" type="hidden" />
+
+          <div class="form-group">
+            <label for="editProductName">Product name</label>
+            <input
+              class="form-control"
+              id="editProductName"
+              name="productName"
+              type="text"
+              value="Classic Burger"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editProductCategory">Category</label>
+            <select
+              class="form-control"
+              id="editProductCategory"
+              name="category"
+              required
+            >
+              <option value="beverages">Beverages</option>
+              <option value="snacks">Snacks</option>
+              <option value="meals" selected>Meals</option>
+              <option value="desserts">Desserts</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="editProductPrice">Price</label>
+            <input
+              class="form-control"
+              id="editProductPrice"
+              name="price"
+              type="number"
+              min="0"
+              step="0.01"
+              value="120.00"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editProductStock">Stock quantity</label>
+            <input
+              class="form-control"
+              id="editProductStock"
+              name="stockQuantity"
+              type="number"
+              min="0"
+              step="1"
+              value="24"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editProductStatus">Status</label>
+            <select
+              class="form-control"
+              id="editProductStatus"
+              name="status"
+              required
+            >
+              <option value="available" selected>Available</option>
+              <option value="low-stock">Low stock</option>
+              <option value="out-of-stock">Out of stock</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+
+          <footer class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              id="cancelEditProductButton"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-primary" type="submit">Save changes</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+
+    <!-- Use this modal to confirm product deletion later -->
+    <div
+      class="modal"
+      id="deleteProductModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="deleteProductModalTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 id="deleteProductModalTitle">Delete Product</h2>
+        </header>
+
+        <p>
+          Are you sure you want to delete
+          <strong id="deleteProductName">this product</strong>?
+        </p>
+
+        <input id="deleteProductId" type="hidden" />
+
+        <footer class="modal-footer">
+          <button
+            class="btn btn-secondary"
+            id="cancelDeleteProductButton"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-danger"
+            id="confirmDeleteProductButton"
+            type="button"
+          >
+            Delete product
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Connect the admin products JavaScript file here later -->
+    <script src="../js/admin-products.js"></script>
+  </body>
+</html>
