@@ -16,5 +16,6 @@ router.get(
   verifyToken,
   transactionController.getTransactionByEmployeeId,
 );
+router.get("/:id", verifyToken, transactionController.getTransactionById);
 
 module.exports = router;

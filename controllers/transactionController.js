@@ -198,6 +198,63 @@ async function getAllTransactions(req, res) {
   }
 }
 
+async function getTransactionById(req, res) {
+  const transactionId = Number(req.params.id);
+
+  if (!Number.isInteger(transactionId) || transactionId <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Transaction ID",
+    });
+  }
+
+  try {
+    const userId = req.user.id;
+    const userRole = req.user.role;
+    const transaction =
+      await transactionModel.getTransactionById(transactionId);
+
+    if (!transaction) {
+      return res.status(404).json({
+        success: false,
+        message: "Transaction not found",
+      });
+    }
+
+    if (userRole !== "admin" && userId !== transaction.employee_id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to view this transaction",
+      });
+    }
+
+    const transactionItems =
+      await transactionModel.getTransactionItemsByTransactionId(transactionId);
+
+    if (transactionItems.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Transaction items not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Transaction retrieved successfully",
+      data: {
+        ...transaction,
+        items: transactionItems,
+      },
+    });
+  } catch (err) {
+    console.error("Error while getting transaction by ID ", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error while getting transaction by ID ",
+    });
+  }
+}
+
 async function getTransactionByEmployeeId(req, res) {
   const employeeId = Number(req.user.id);
 
@@ -230,4 +287,5 @@ module.exports = {
   createTransaction,
   getAllTransactions,
   getTransactionByEmployeeId,
+  getTransactionById,
 };
