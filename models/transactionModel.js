@@ -59,9 +59,28 @@ async function deductProductStock(connection, productId, quantity) {
   return results;
 }
 
+async function getAllTransactions() {
+  const [results] = await db.query(
+    "SELECT t.id, t.transaction_code, t.employee_id, users.full_name, t.total_items, t.total_amount, t.payment_amount, t.change_amount, t.status, t.created_at FROM transactions AS t JOIN users ON t.employee_id = users.id ORDER BY t.created_at DESC",
+  );
+
+  return results;
+}
+
+async function getTransactionByEmployeeId(employeeId) {
+  const [results] = await db.query(
+    "SELECT t.id, t.transaction_code, t.employee_id, users.full_name, t.total_items, t.total_amount, t.payment_amount, t.change_amount, t.status, t.created_at FROM transactions AS t JOIN users ON t.employee_id = users.id  WHERE t.employee_id = ? ORDER BY t.created_at DESC",
+    [employeeId],
+  );
+
+  return results;
+}
+
 module.exports = {
   getProductById,
   createTransactionRecord,
   createTransactionItem,
   deductProductStock,
+  getAllTransactions,
+  getTransactionByEmployeeId,
 };

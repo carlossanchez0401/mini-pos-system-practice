@@ -180,6 +180,54 @@ async function createTransaction(req, res) {
   }
 }
 
+async function getAllTransactions(req, res) {
+  try {
+    const transactions = await transactionModel.getAllTransactions();
+
+    return res.status(200).json({
+      success: true,
+      message: "Transactions list retrieved successfully",
+      data: transactions,
+    });
+  } catch (err) {
+    console.error("Error While retrieving transactions", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error while retrieving transactions",
+    });
+  }
+}
+
+async function getTransactionByEmployeeId(req, res) {
+  const employeeId = Number(req.user.id);
+
+  if (!Number.isInteger(employeeId) || employeeId <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid employee ID",
+    });
+  }
+
+  try {
+    const transactions =
+      await transactionModel.getTransactionByEmployeeId(employeeId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee transactions retrieved successfully",
+      data: transactions,
+    });
+  } catch (err) {
+    console.error("Error while retrieving employee transactions:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error while retrieving employee transactions",
+    });
+  }
+}
+
 module.exports = {
   createTransaction,
+  getAllTransactions,
+  getTransactionByEmployeeId,
 };
