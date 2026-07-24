@@ -408,7 +408,7 @@ select.form-control {
 }
 
 .product-card-header {
-  margin-bottom: 13px;
+  margin-bottom: 18px;
 
   display: flex;
   align-items: center;
@@ -449,24 +449,6 @@ select.form-control {
 .status-out-of-stock {
   color: var(--danger);
   background-color: var(--danger-soft);
-}
-
-.product-image-placeholder {
-  height: 132px;
-  margin-bottom: 16px;
-
-  display: grid;
-  place-items: center;
-
-  color: #7a8da1;
-  background:
-    linear-gradient(145deg, rgba(22, 119, 255, 0.08), rgba(22, 119, 255, 0.02)),
-    #f5f8fb;
-  border: 1px dashed #bdc8d4;
-  border-radius: 10px;
-
-  font-size: 13px;
-  font-weight: 600;
 }
 
 .product-card h3 {
