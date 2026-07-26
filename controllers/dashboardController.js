@@ -64,9 +64,10 @@ async function getSalesReport(req, res) {
 
     const formattedNextEndDate = nextEndDate.toISOString().split("T")[0];
 
-    const [summary, transactions] = await Promise.all([
+    const [summary, transactions, topSellingProducts] = await Promise.all([
       dashboardModel.getSalesReportSummary(startDate, formattedNextEndDate),
       dashboardModel.getSalesTransactions(startDate, formattedNextEndDate),
+      dashboardModel.getTopSellingProducts(startDate, formattedNextEndDate),
     ]);
 
     return res.status(200).json({
@@ -79,6 +80,7 @@ async function getSalesReport(req, res) {
         },
         summary,
         transactions,
+        topSellingProducts,
       },
     });
   } catch (err) {
@@ -91,7 +93,49 @@ async function getSalesReport(req, res) {
   }
 }
 
+async function getInventoryReport(req, res) {
+  try {
+    const { status } = req.query;
+
+    const validStatuses = [
+      "available",
+      "low-stock",
+      "out-of-stock",
+      "inactive",
+    ];
+
+    if (status && !validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status. Use available, low-stock, or out-of-stock",
+      });
+    }
+
+    const products = await dashboardModel.getInventoryReport(status);
+
+    return res.status(200).json({
+      success: true,
+      message: "Inventory report retrieved successfully",
+      data: {
+        filter: {
+          status: status || "all",
+        },
+        totalProducts: products.length,
+        products,
+      },
+    });
+  } catch (err) {
+    console.error("Error while retrieving inventory report:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Error while retrieving inventory report",
+    });
+  }
+}
+
 module.exports = {
   getDashboardSummary,
   getSalesReport,
+  getInventoryReport,
 };

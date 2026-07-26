@@ -18,4 +18,11 @@ router.get(
   dashboardController.getSalesReport,
 );
 
+router.get(
+  "/inventory",
+  verifyToken,
+  authorizeAdmin,
+  dashboardController.getInventoryReport,
+);
+
 module.exports = router;

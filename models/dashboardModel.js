@@ -67,6 +67,57 @@ async function getSalesTransactions(startDate, nextEndDate) {
   return results;
 }
 
+async function getTopSellingProducts(startDate, nextEndDate) {
+  const [results] = await db.query(
+    `SELECT
+      ti.product_id,
+      ti.product_name,
+      SUM(ti.quantity) AS total_quantity_sold,
+      SUM(ti.subtotal) AS total_sales
+     FROM transaction_items AS ti
+     JOIN transactions AS t
+       ON ti.transaction_id = t.id
+     WHERE t.status = 'completed'
+       AND t.created_at >= ?
+       AND t.created_at < ?
+     GROUP BY ti.product_id, ti.product_name
+     ORDER BY total_quantity_sold DESC
+     LIMIT 5`,
+    [startDate, nextEndDate],
+  );
+
+  return results;
+}
+
+async function getInventoryReport(status) {
+  let query = `
+    SELECT
+      id,
+      product_name,
+      category,
+      price,
+      stock_quantity,
+      status,
+      price * stock_quantity AS inventory_value,
+      created_at,
+      updated_at
+    FROM products
+  `;
+
+  const values = [];
+
+  if (status) {
+    query += ` WHERE status = ?`;
+    values.push(status);
+  }
+
+  query += ` ORDER BY stock_quantity ASC, product_name ASC `;
+
+  const [results] = await db.query(query, values);
+
+  return results;
+}
+
 module.exports = {
   getSalesSummary,
   getEmployeesCount,
@@ -74,4 +125,6 @@ module.exports = {
   getRecentTransactions,
   getSalesReportSummary,
   getSalesTransactions,
+  getTopSellingProducts,
+  getInventoryReport,
 };
