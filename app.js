@@ -8,6 +8,7 @@ const productRoutes = require("./routes/productRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const pageRoutes = require("./routes/pageRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -18,6 +19,7 @@ app.use("/auth", authRoutes);
 app.use("/product", productRoutes);
 app.use("/employee", employeeRoutes);
 app.use("/transactions", transactionRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running");
