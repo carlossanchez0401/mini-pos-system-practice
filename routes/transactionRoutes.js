@@ -17,5 +17,11 @@ router.get(
   transactionController.getTransactionByEmployeeId,
 );
 router.get("/:id", verifyToken, transactionController.getTransactionById);
+router.patch(
+  "/:id/void",
+  verifyToken,
+  authorizeAdmin,
+  transactionController.voidTransaction,
+);
 
 module.exports = router;

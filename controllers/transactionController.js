@@ -144,6 +144,11 @@ async function createTransaction(req, res) {
       if (stockResult.affectedRows === 0) {
         throw new Error(`Unable to deduct stock for ${item.productName}`);
       }
+
+      await transactionModel.updateProductStatusByStock(
+        connection,
+        item.productId,
+      );
     }
 
     await connection.commit();
@@ -283,9 +288,117 @@ async function getTransactionByEmployeeId(req, res) {
   }
 }
 
+async function voidTransaction(req, res) {
+  let connection;
+
+  const transactionId = Number(req.params.id);
+
+  if (!Number.isInteger(transactionId) || transactionId <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Transaction ID",
+    });
+  }
+  try {
+    connection = await db.getConnection();
+    await connection.beginTransaction();
+
+    const transaction = await transactionModel.getTransactionByIdForUpdate(
+      connection,
+      transactionId,
+    );
+
+    if (!transaction) {
+      await connection.rollback();
+      return res.status(404).json({
+        success: false,
+        message: "Transaction not found",
+      });
+    }
+
+    if (transaction.status === "voided") {
+      await connection.rollback();
+
+      return res.status(409).json({
+        success: false,
+        message: "Transaction is already voided",
+      });
+    }
+
+    if (transaction.status !== "completed") {
+      await connection.rollback();
+      return res.status(409).json({
+        success: false,
+        message: "Transaction is not completed",
+      });
+    }
+
+    const transactionItems = await transactionModel.getTransactionItemsForVoid(
+      connection,
+      transactionId,
+    );
+    if (transactionItems.length === 0) {
+      throw new Error("Transaction items not found");
+    }
+
+    for (const item of transactionItems) {
+      const stockResult = await transactionModel.restoreProductStock(
+        connection,
+        item.product_id,
+        item.quantity,
+      );
+
+      if (stockResult.affectedRows === 0) {
+        throw new Error(
+          `Unable to restore stock for product ID ${item.product_id}`,
+        );
+      }
+
+      await transactionModel.updateProductStatusByStock(
+        connection,
+        item.product_id,
+      );
+    }
+
+    const updateStatus = await transactionModel.updateTransactionStatus(
+      connection,
+      transactionId,
+      "voided",
+    );
+
+    if (updateStatus.affectedRows === 0) {
+      throw new Error(
+        `Unable to update status for transaction ID ${transactionId}`,
+      );
+    }
+    await connection.commit();
+
+    return res.status(200).json({
+      success: true,
+      message: "Transaction voided successfully",
+    });
+  } catch (err) {
+    if (connection) {
+      await connection.rollback();
+    }
+
+    console.error("Error while voiding transaction:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Error while voiding transaction",
+    });
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}
+
 module.exports = {
   createTransaction,
   getAllTransactions,
   getTransactionByEmployeeId,
   getTransactionById,
+  voidTransaction,
 };
