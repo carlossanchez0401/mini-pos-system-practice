@@ -11,4 +11,11 @@ router.get(
   dashboardController.getDashboardSummary,
 );
 
+router.get(
+  "/sales-report",
+  verifyToken,
+  authorizeAdmin,
+  dashboardController.getSalesReport,
+);
+
 module.exports = router;

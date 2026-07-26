@@ -32,9 +32,46 @@ async function getRecentTransactions() {
   return results;
 }
 
+async function getSalesReportSummary(startDate, nextEndDate) {
+  const [results] = await db.query(
+    `
+    SELECT COALESCE(SUM(CASE WHEN status = 'completed' THEN total_amount ELSE 0 END ), 0) AS total_sales, COALESCE(SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END), 0) AS completed_transactions, COALESCE(SUM(CASE WHEN status='voided' THEN 1 ELSE 0 END), 0) AS voided_transactions, COALESCE(SUM(CASE WHEN status ='completed' THEN total_items ELSE 0 END), 0) AS total_items_sold FROM transactions  WHERE created_at >= ? AND created_at < ?`,
+    [startDate, nextEndDate],
+  );
+
+  return results[0];
+}
+
+async function getSalesTransactions(startDate, nextEndDate) {
+  const [results] = await db.query(
+    `SELECT
+      t.id,
+      t.transaction_code,
+      t.employee_id,
+      u.full_name,
+      t.total_items,
+      t.total_amount,
+      t.payment_amount,
+      t.change_amount,
+      t.status,
+      t.created_at
+     FROM transactions AS t
+     JOIN users AS u
+       ON t.employee_id = u.id
+     WHERE t.created_at >= ?
+       AND t.created_at < ?
+     ORDER BY t.created_at DESC`,
+    [startDate, nextEndDate],
+  );
+
+  return results;
+}
+
 module.exports = {
   getSalesSummary,
   getEmployeesCount,
   getProductSummary,
   getRecentTransactions,
+  getSalesReportSummary,
+  getSalesTransactions,
 };
