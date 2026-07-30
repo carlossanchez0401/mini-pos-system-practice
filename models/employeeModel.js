@@ -1,5 +1,14 @@
 const db = require("../config/db");
 
+async function searchEmployees(search) {
+  const [results] = await db.query(
+    `SELECT id, full_name, email, username, role, status, created_at FROM users WHERE role = 'employee' AND (full_name LIKE ? OR email LIKE ? OR username LIKE ?) ORDER BY full_name ASC`,
+    [`%${search}%`, `%${search}%`, `%${search}%`],
+  );
+
+  return results;
+}
+
 async function getEmployees() {
   const [results] = await db.query(
     "SELECT id , full_name, email, username, role, status, created_at FROM users WHERE role = 'employee' ORDER BY full_name ",
@@ -48,4 +57,5 @@ module.exports = {
   getEmployeeByEmailOrUsername,
   addEmployee,
   updateEmployee,
+  searchEmployees,
 };

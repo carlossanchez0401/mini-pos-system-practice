@@ -1,6 +1,34 @@
 const employeeModel = require("../models/employeeModel");
 const bcrypt = require("bcrypt");
 
+async function searchEmployees(req, res) {
+  try {
+    const { search } = req.query;
+
+    if (!search || search.trim() === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Search keyword is required",
+      });
+    }
+
+    const employees = await employeeModel.searchEmployees(search.trim());
+
+    return res.status(200).json({
+      success: true,
+      message: "Employees retrieved successfully",
+      data: employees,
+    });
+  } catch (err) {
+    console.error("Error while searching employees:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Error while searching employees",
+    });
+  }
+}
+
 async function getEmployees(req, res) {
   try {
     const results = await employeeModel.getEmployees();
@@ -143,6 +171,7 @@ async function updateEmployee(req, res) {
 }
 
 module.exports = {
+  searchEmployees,
   getEmployees,
   addEmployee,
   updateEmployee,

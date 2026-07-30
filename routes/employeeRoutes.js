@@ -5,6 +5,12 @@ const { verifyToken } = require("../middlewares/authMiddleware");
 const { authorizeAdmin } = require("../middlewares/authorizeAdmin");
 
 router.get("/", verifyToken, authorizeAdmin, employeeController.getEmployees);
+router.get(
+  "/search",
+  verifyToken,
+  authorizeAdmin,
+  employeeController.searchEmployees,
+);
 router.post("/", verifyToken, authorizeAdmin, employeeController.addEmployee);
 router.put(
   "/:id",

@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 async function getSalesSummary() {
   const [results] = await db.query(
-    `SELECT COALESCE(SUM(CASE WHEN status = 'completed' THEN total_amount ELSE 0 END ), 0) AS total_sales, COALESCE(SUM(CASE WHEN status ='completed' THEN 1 ELSE 0 END ), 0) AS completed_transactions, COALESCE(SUM(CASE WHEN status = 'voided' THEN 1 ELSE 0 END ), 0 ) AS voided_transactions FROM transactions `,
+    `SELECT COALESCE(SUM(CASE WHEN status = 'completed' THEN total_amount ELSE 0 END ), 0) AS total_sales, COALESCE(SUM(CASE WHEN status ='completed' THEN 1 ELSE 0 END ), 0) AS completed_transactions, COALESCE(SUM(CASE WHEN status = 'voided' THEN 1 ELSE 0 END ), 0 ) AS voided_transactions, COALESCE(SUM(CASE WHEN status = 'completed' THEN total_items ELSE 0 END),0) AS total_items_sold FROM transactions `,
   );
 
   return results[0];
