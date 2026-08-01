@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadEmployees();
   searchEmployees();
+  addEmployee();
 });
 
 async function loadEmployees() {
@@ -34,6 +35,7 @@ async function loadEmployees() {
     const results = await response.json();
     if (response.ok) {
       renderEmployees(results.data);
+      updateEmployee();
     }
   } catch (err) {
     employeeError.hidden = false;
@@ -92,14 +94,21 @@ function renderEmployees(employees) {
           <span class="status-badge ${statusClass}">${employee.status}</span>
         </td>
         <td>${formattedDate}</td>
-        <td></td>
+        <td>  
+        <button
+        class="btn btn-secondary edit-employee-button"
+        type="button"
+        data-employee-id="${employee.id}"
+         >
+        Edit
+    </button></td>
     `;
 
     tableBody.appendChild(row);
   }
 }
 
-async function searchEmployees() {
+function searchEmployees() {
   const employeeFilterForm = document.getElementById("employeeFilterForm");
   const employeeSearchInput = document.getElementById("employeeSearchInput");
 
@@ -137,4 +146,145 @@ async function searchEmployees() {
       console.error("Loading employee error", err);
     }
   });
+}
+
+function addEmployee() {
+  const addEmployeeBtn = document.getElementById("addEmployeeButton");
+  const addEmployeeModal = document.getElementById("addEmployeeModal");
+  const addEmployeeForm = document.getElementById("addEmployeeForm");
+  const saveEmployeeButton = document.getElementById("saveEmployeeButton");
+  const cancelAddEmployeeBtn = document.getElementById(
+    "cancelAddEmployeeButton",
+  );
+  const closeEmployeeModal = document.getElementById(
+    "closeAddEmployeeModalButton",
+  );
+
+  if (addEmployeeBtn && addEmployeeModal) {
+    addEmployeeBtn.addEventListener("click", () => {
+      addEmployeeModal.hidden = false;
+    });
+  }
+
+  const closeModalReset = () => {
+    if (addEmployeeModal) {
+      addEmployeeModal.hidden = true;
+    }
+    if (addEmployeeForm) {
+      addEmployeeForm.reset();
+    }
+  };
+
+  if (closeEmployeeModal && addEmployeeModal) {
+    closeEmployeeModal.addEventListener("click", closeModalReset);
+  }
+
+  if (cancelAddEmployeeBtn && addEmployeeModal) {
+    cancelAddEmployeeBtn.addEventListener("click", closeModalReset);
+  }
+
+  if (addEmployeeForm) {
+    addEmployeeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+
+      const formData = Object.fromEntries(new FormData(e.target));
+
+      if (formData.password !== formData.confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      saveEmployeeButton.disabled = true;
+
+      try {
+        const response = await fetch("/employee", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const results = await response.json();
+
+        if (response.ok) {
+          alert("Employee successfully added!");
+          closeModalReset();
+          await loadEmployees();
+        } else {
+          alert(results.message || "Failed to add employee.");
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        alert("May problema sa koneksyon o sa server.");
+      } finally {
+        saveEmployeeButton.disabled = false;
+      }
+    });
+  }
+}
+
+function updateEmployee() {
+  const editForm = document.getElementById("editEmployeeForm");
+  const editButtons = document.querySelectorAll(".edit-employee-button");
+  const closeModalButton = document.getElementById(
+    "closeEditEmployeeModalButton",
+  );
+  const cancelButton = document.getElementById("cancelEditEmployeeButton");
+  const editModal = document.getElementById("editEmployeeModal");
+
+  let eId = 0;
+
+  const closeModalReset = () => {
+    editForm.reset();
+    editModal.hidden = true;
+    eId = 0;
+  };
+
+  if (closeModalButton) {
+    closeModalButton.addEventListener("click", closeModalReset);
+  }
+
+  if (cancelButton) {
+    cancelButton.addEventListener("click", closeModalReset);
+  }
+
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener("click", async () => {
+      eId = editButton.dataset.employeeId;
+      editModal.hidden = false;
+    });
+  });
+
+  if (editForm) {
+    editForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(e.target));
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch(`/employee/${eId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const results = await response.json();
+        if (response.ok) {
+          closeModalReset();
+          editModal.hidden = true;
+          await loadEmployees();
+        } else {
+          alert(results.message || "Failed to update employee.");
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    });
+  }
 }

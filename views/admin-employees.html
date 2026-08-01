@@ -15,15 +15,15 @@
         </div>
 
         <div class="sidebar-profile">
-          <p class="profile-name" id="adminName">Maria Santos</p>
-          <p class="profile-role" id="adminRole">Administrator</p>
+          <p class="profile-name" id="adminName"></p>
+          <p class="profile-role" id="adminRole"></p>
         </div>
 
         <nav class="sidebar-nav">
           <ul>
             <li><a href="admin-dashboard.html">Dashboard</a></li>
             <li>
-              <a class="active" href="admin-employees" aria-current="page">
+              <a class="active" href="admin-employees.html" aria-current="page">
                 Employees
               </a>
             </li>
@@ -146,7 +146,7 @@
           <header class="section-header">
             <div>
               <h2 id="employeesTableHeading">Employee Accounts</h2>
-              <p>Placeholder employee records are shown below.</p>
+              <p>Manage employee accounts.</p>
             </div>
           </header>
 
@@ -165,122 +165,7 @@
                 </tr>
               </thead>
 
-              <!-- Replace placeholder employee rows using backend data later -->
-              <tbody id="employeeTableBody">
-                <tr>
-                  <td>EMP-001</td>
-                  <td>Juan Dela Cruz</td>
-                  <td>juan@example.com</td>
-                  <td>juan.dc</td>
-                  <td>Employee</td>
-                  <td>
-                    <span class="status-badge status-active">Active</span>
-                  </td>
-                  <td>June 2, 2026</td>
-                  <td>
-                    <div class="table-actions">
-                      <button
-                        class="btn btn-secondary edit-employee-button"
-                        type="button"
-                        data-employee-id="EMP-001"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-danger change-status-button"
-                        type="button"
-                        data-employee-id="EMP-001"
-                        data-next-status="inactive"
-                      >
-                        Deactivate
-                      </button>
-                      <button
-                        class="btn btn-secondary view-employee-report-button"
-                        type="button"
-                        data-employee-id="EMP-001"
-                      >
-                        View report
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>EMP-002</td>
-                  <td>Ana Reyes</td>
-                  <td>ana@example.com</td>
-                  <td>ana.reyes</td>
-                  <td>Employee</td>
-                  <td>
-                    <span class="status-badge status-active">Active</span>
-                  </td>
-                  <td>June 4, 2026</td>
-                  <td>
-                    <div class="table-actions">
-                      <button
-                        class="btn btn-secondary edit-employee-button"
-                        type="button"
-                        data-employee-id="EMP-002"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-danger change-status-button"
-                        type="button"
-                        data-employee-id="EMP-002"
-                        data-next-status="inactive"
-                      >
-                        Deactivate
-                      </button>
-                      <button
-                        class="btn btn-secondary view-employee-report-button"
-                        type="button"
-                        data-employee-id="EMP-002"
-                      >
-                        View report
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>EMP-003</td>
-                  <td>Mark Villanueva</td>
-                  <td>mark@example.com</td>
-                  <td>mark.v</td>
-                  <td>Employee</td>
-                  <td>
-                    <span class="status-badge status-inactive">Inactive</span>
-                  </td>
-                  <td>June 10, 2026</td>
-                  <td>
-                    <div class="table-actions">
-                      <button
-                        class="btn btn-secondary edit-employee-button"
-                        type="button"
-                        data-employee-id="EMP-003"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-primary change-status-button"
-                        type="button"
-                        data-employee-id="EMP-003"
-                        data-next-status="active"
-                      >
-                        Activate
-                      </button>
-                      <button
-                        class="btn btn-secondary view-employee-report-button"
-                        type="button"
-                        data-employee-id="EMP-003"
-                      >
-                        View report
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody id="employeeTableBody"></tbody>
             </table>
           </div>
 
@@ -381,20 +266,6 @@
           </div>
 
           <div class="form-group">
-            <label for="addEmployeeRole">Role</label>
-            <select
-              class="form-control"
-              id="addEmployeeRole"
-              name="role"
-              required
-            >
-              <option value="">Select a role</option>
-              <option value="employee">Employee</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-
-          <div class="form-group">
             <label for="addEmployeeStatus">Account status</label>
             <select
               class="form-control"
@@ -415,7 +286,13 @@
             >
               Cancel
             </button>
-            <button class="btn btn-primary" type="submit">Add employee</button>
+            <button
+              class="btn btn-primary"
+              id="saveEmployeeButton"
+              type="submit"
+            >
+              Add employee
+            </button>
           </footer>
         </form>
       </div>
@@ -456,7 +333,7 @@
               id="editEmployeeFullName"
               name="fullName"
               type="text"
-              value="Juan Dela Cruz"
+              value=""
               required
             />
           </div>
@@ -468,7 +345,7 @@
               id="editEmployeeEmail"
               name="email"
               type="email"
-              value="juan@example.com"
+              value=""
               required
             />
           </div>
@@ -480,7 +357,7 @@
               id="editEmployeeUsername"
               name="username"
               type="text"
-              value="juan.dc"
+              value=""
               required
             />
           </div>
@@ -493,7 +370,7 @@
               name="role"
               required
             >
-              <option value="employee" selected>Employee</option>
+              <option value="employee">Employee</option>
               <option value="admin">Admin</option>
             </select>
           </div>
@@ -506,7 +383,7 @@
               name="status"
               required
             >
-              <option value="active" selected>Active</option>
+              <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
           </div>
