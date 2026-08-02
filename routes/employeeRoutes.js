@@ -18,5 +18,11 @@ router.put(
   authorizeAdmin,
   employeeController.updateEmployee,
 );
+router.patch(
+  "/:id/status",
+  verifyToken,
+  authorizeAdmin,
+  employeeController.employeeStatusUpdate,
+);
 
 module.exports = router;

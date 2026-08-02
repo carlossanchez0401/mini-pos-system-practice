@@ -170,9 +170,51 @@ async function updateEmployee(req, res) {
   }
 }
 
+async function employeeStatusUpdate(req, res) {
+  const id = Number(req.params.id);
+  const { status } = req.body;
+  const statuses = ["active", "inactive"];
+
+  if (!Number.isInteger(id)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid user ID.",
+    });
+  }
+
+  if (!statuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid user status.",
+    });
+  }
+
+  try {
+    const employee = await employeeModel.employeeStatusUpdate(status, id);
+    if (employee.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee status updated successfully.",
+    });
+  } catch (err) {
+    console.error("Error while updating employee status", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error while updating employee status",
+    });
+  }
+}
+
 module.exports = {
   searchEmployees,
   getEmployees,
   addEmployee,
   updateEmployee,
+  employeeStatusUpdate,
 };

@@ -51,6 +51,15 @@ async function updateEmployee(fullName, email, username, status, id) {
 
   return results;
 }
+
+async function employeeStatusUpdate(status, id) {
+  const [results] = await db.query(
+    'UPDATE users SET status=? WHERE id=? AND role="employee"',
+    [status, id],
+  );
+
+  return results;
+}
 module.exports = {
   getEmployees,
   getEmployeeById,
@@ -58,4 +67,5 @@ module.exports = {
   addEmployee,
   updateEmployee,
   searchEmployees,
+  employeeStatusUpdate,
 };

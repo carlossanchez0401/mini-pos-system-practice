@@ -36,6 +36,7 @@ async function loadEmployees() {
     if (response.ok) {
       renderEmployees(results.data);
       updateEmployee();
+      employeeStatusUpdate();
     }
   } catch (err) {
     employeeError.hidden = false;
@@ -84,6 +85,13 @@ function renderEmployees(employees) {
       statusClass = "status-inactive";
     }
 
+    let statusButtonText = "";
+    if (employee.status === "active") {
+      statusButtonText = "Deactivate";
+    } else {
+      statusButtonText = "Activate";
+    }
+
     row.innerHTML = `
         <td>${employeeCode}</td>
         <td>${employee.full_name}</td>
@@ -101,7 +109,9 @@ function renderEmployees(employees) {
         data-employee-id="${employee.id}"
          >
         Edit
-    </button></td>
+    </button>
+    <button class= "btn btn-secondary status-employee-button" type="button" data-employee-id="${employee.id}" data-status="${employee.status}">${statusButtonText}</button></td>
+   
     `;
 
     tableBody.appendChild(row);
@@ -234,6 +244,7 @@ function updateEmployee() {
     "closeEditEmployeeModalButton",
   );
   const cancelButton = document.getElementById("cancelEditEmployeeButton");
+  const saveButton = document.getElementById("saveEditEmployeeButton");
   const editModal = document.getElementById("editEmployeeModal");
 
   let eId = 0;
@@ -264,6 +275,8 @@ function updateEmployee() {
       e.preventDefault();
       const formData = Object.fromEntries(new FormData(e.target));
       const token = localStorage.getItem("token");
+
+      saveButton.disabled = true;
       try {
         const response = await fetch(`/employee/${eId}`, {
           method: "PUT",
@@ -277,13 +290,78 @@ function updateEmployee() {
         const results = await response.json();
         if (response.ok) {
           closeModalReset();
-          editModal.hidden = true;
           await loadEmployees();
         } else {
           alert(results.message || "Failed to update employee.");
         }
       } catch (err) {
         console.error("Fetch error:", err);
+      } finally {
+        saveButton.disabled = false;
+      }
+    });
+  }
+}
+
+function employeeStatusUpdate() {
+  const statusButton = document.querySelectorAll(".status-employee-button");
+  const employeeModal = document.getElementById("employeeConfirmationModal");
+  const confirmButton = document.getElementById("confirmEmployeeStatusButton");
+  const cancelButton = document.getElementById("cancelEmployeeStatusButton");
+
+  let eId = 0;
+  let status = "";
+  let newStatus = "";
+
+  if (cancelButton) {
+    cancelButton.addEventListener("click", () => {
+      employeeModal.hidden = true;
+      eId = 0;
+      status = "";
+      newStatus = "";
+    });
+  }
+
+  statusButton.forEach((button) => {
+    button.addEventListener("click", () => {
+      eId = button.dataset.employeeId;
+      status = button.dataset.status;
+
+      if (status === "active") {
+        newStatus = "inactive";
+      } else {
+        newStatus = "active";
+      }
+
+      employeeModal.hidden = false;
+    });
+  });
+
+  if (confirmButton) {
+    confirmButton.addEventListener("click", async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch(`/employee/${eId}/status`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            status: newStatus,
+          }),
+        });
+
+        const results = await response.json();
+        if (response.ok) {
+          eId = 0;
+          status = "";
+          newStatus = "";
+          employeeModal.hidden = true;
+          await loadEmployees();
+        }
+      } catch (err) {
+        console.error("Errro while updating status", err);
       }
     });
   }
